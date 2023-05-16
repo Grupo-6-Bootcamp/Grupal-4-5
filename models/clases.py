@@ -1,15 +1,5 @@
-# Respecto al sistema el cual se lleva desarrollado, se solicita poder incluir las sentencias try-except para
-# poder capturar errores en nuestro sistema. En el caso de ingresar cualquier valor incorrecto, este no se
-# termine y muestre un mensaje de error correspondiente.
-# Además se solicita crear una Excepción personalizada (Excepción definida por el usuario), la cual nos
-# permite realizar una acción al momento de que no exista stock de productos en la clase Producto,
-# Sucursal y Bodega.
-# La clase de Excepción deberá estar en un archivo externo y se deberá importar al proyecto principal.
-# En su carro de compras, genere un error en caso que un cliente quiera comprar más de 10 unidades de
-# un producto.
-# Cree un método para mostrar el valor promedio de las compras de un cliente. Realice el trabajo
-# necesario para tratar el error en caso que el cliente tenga solo 0 compras.
-# Cada vez que se trabaje un error se debe retornar True.
+from models.exceptionClass import sinStockBodega
+
 class Persona:
     def __init__(self, run, nombre, apellido, edad):
         self.run = run
@@ -19,13 +9,15 @@ class Persona:
 
 
 class Cliente(Persona):
-    def __init__(self, run, nombre, apellido, edad, id_usuario, correo, fecha_registro, __saldo):
+    def __init__(self, run, nombre, apellido, edad, id_usuario, correo, fecha_registro, __saldo, compras, num_compras):
         super().__init__(run, nombre, apellido, edad)
         self.id = id_usuario
         self.correo = correo
         self.fecha = fecha_registro
         self.__saldo = __saldo
         self.impuesto = 1.19
+        self.compras = compras
+        self.num_compras = num_compras
 
     @property
     def saldo(self):
@@ -54,15 +46,15 @@ class Sucursal(Edificio):
     def reponerStock(self, cantidad, bodega):
 
         if bodega.stock <= cantidad:
-            print('No existe stock suficiente para reponer')
-        else:
-            self.stock += cantidad
-            bodega.stock -= cantidad
-            print('El stock del producto en la sucursal no es suficiente.')
-            print(
-                f'Se está solicitando y reponiendo {cantidad} productos a Bodega...')
-            print(
-                f'El nuevo stock del producto es de {self.stock} unidades \n')
+            # print('No existe stock suficiente para reponer')
+            raise sinStockBodega(cantidad)
+        self.stock += cantidad
+        bodega.stock -= cantidad
+        print('El stock del producto en la sucursal no es suficiente.')
+        print(
+            f'Se está solicitando y reponiendo {cantidad} productos a Bodega...')
+        print(
+            f'El nuevo stock del producto es de {self.stock} unidades \n')
 
     def requiereStock(self, cantidad, bodega):
         if self.stock < 50:
@@ -175,11 +167,13 @@ class OrdenCompra:
             vendedor.comision += self.producto.comisionPrioritario(cantidad)
             if despacho:
                 cliente.saldo -= self.producto.valor_neto * cantidad * 1.19 + 5000
+                cliente.compras += self.producto.valor_neto * cantidad * 1.19 + 5000
             else:
                 cliente.saldo -= self.producto.valor_neto * cantidad * 1.19
+                cliente.compras += self.producto.valor_neto * cantidad * 1.19
+            cliente.num_compras +=1
             vendedor.ventas += self.producto.valor_neto * cantidad
-            self.generaOC(self.id_compra, self.producto,
-                          cantidad, self.despacho)
+            self.generaOC(self.id_compra, self.producto, cantidad, self.despacho)
             print(
                 f'El producto {self.producto.nombre} fue vendido exitosamente, el saldo del cliente es {cliente.saldo}')
             print(
