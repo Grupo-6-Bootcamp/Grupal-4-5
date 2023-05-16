@@ -1,9 +1,22 @@
+# Respecto al sistema el cual se lleva desarrollado, se solicita poder incluir las sentencias try-except para
+# poder capturar errores en nuestro sistema. En el caso de ingresar cualquier valor incorrecto, este no se
+# termine y muestre un mensaje de error correspondiente.
+# Además se solicita crear una Excepción personalizada (Excepción definida por el usuario), la cual nos
+# permite realizar una acción al momento de que no exista stock de productos en la clase Producto,
+# Sucursal y Bodega.
+# La clase de Excepción deberá estar en un archivo externo y se deberá importar al proyecto principal.
+# En su carro de compras, genere un error en caso que un cliente quiera comprar más de 10 unidades de
+# un producto.
+# Cree un método para mostrar el valor promedio de las compras de un cliente. Realice el trabajo
+# necesario para tratar el error en caso que el cliente tenga solo 0 compras.
+# Cada vez que se trabaje un error se debe retornar True.
 class Persona:
     def __init__(self, run, nombre, apellido, edad):
         self.run = run
         self.nombre = nombre
         self.apellido = apellido
         self.edad = edad
+
 
 class Cliente(Persona):
     def __init__(self, run, nombre, apellido, edad, id_usuario, correo, fecha_registro, __saldo):
@@ -26,40 +39,48 @@ class Cliente(Persona):
     def obtenerCliente(self, id):
         return self.nombre if id == self.id else None
 
+
 class Edificio:
     def __init__(self, direccion, telefono):
         self.direccion = direccion
         self.telefono = telefono
 
+
 class Sucursal(Edificio):
     def __init__(self, direccion, telefono, stock):
         super().__init__(direccion, telefono)
         self.stock = stock
-    
+
     def reponerStock(self, cantidad, bodega):
+
         if bodega.stock <= cantidad:
             print('No existe stock suficiente para reponer')
         else:
             self.stock += cantidad
             bodega.stock -= cantidad
             print('El stock del producto en la sucursal no es suficiente.')
-            print(f'Se está solicitando y reponiendo {cantidad} productos a Bodega...')
-            print(f'El nuevo stock del producto es de {self.stock} unidades \n')
-    
+            print(
+                f'Se está solicitando y reponiendo {cantidad} productos a Bodega...')
+            print(
+                f'El nuevo stock del producto es de {self.stock} unidades \n')
+
     def requiereStock(self, cantidad, bodega):
         if self.stock < 50:
             self.reponerStock(cantidad, bodega)
             print(f'Se está solicitando y reponiendo {cantidad} productos...')
-    
+
+
 class Bodega(Edificio):
     def __init__(self, direccion, telefono, stock):
         super().__init__(direccion, telefono)
         self.stock = stock
 
+
 class CategoriaProducto:
     def __init__(self, nombre, descripcion):
         self.nombre = nombre
         self.descripcion = descripcion
+
 
 class Producto:
     categoria: CategoriaProducto
@@ -84,6 +105,7 @@ class Producto:
         print(
             f'El valor del producto {self.nombre} fue cambiado a ${self.valor_neto}')
 
+
 class Vendedor(Persona):
     def __init__(self, run, nombre, apellido, edad, seccion, __comision, ventas):
         super().__init__(run, nombre, apellido, edad)
@@ -103,6 +125,7 @@ class Vendedor(Persona):
     def consultarVentas(self):
         print(f'Las ventas del vendedor {self.nombre} son ${self.ventas}')
 
+
 class Proveedor:
     def __init__(self, rut, nombre_legal, razon_social, pais, es_persona_juridica):
         self.rut = rut
@@ -116,10 +139,11 @@ class Proveedor:
         print(
             f'Se agregaron {cantidad} unidades al producto {producto.nombre}')
 
+
 class OrdenCompra:
     producto: Producto
     id_compra = 1
-    
+
     def __init__(self, id_compra, producto, despacho):
         self.id_compra = id_compra
         self.producto = producto
@@ -154,14 +178,17 @@ class OrdenCompra:
             else:
                 cliente.saldo -= self.producto.valor_neto * cantidad * 1.19
             vendedor.ventas += self.producto.valor_neto * cantidad
-            self.generaOC(self.id_compra, self.producto, cantidad, self.despacho)
+            self.generaOC(self.id_compra, self.producto,
+                          cantidad, self.despacho)
             print(
                 f'El producto {self.producto.nombre} fue vendido exitosamente, el saldo del cliente es {cliente.saldo}')
-            print(f'El nuevo stock del producto {self.producto.nombre} es de {self.producto.sucursal.stock} unidades.')
+            print(
+                f'El nuevo stock del producto {self.producto.nombre} es de {self.producto.sucursal.stock} unidades.')
         else:
             print(
                 f'El cliente {cliente.nombre} {cliente.apellido} no tiene saldo suficiente para comprar el producto {self.producto.nombre}')
             # print(f'El producto {self.producto.nombre} no tiene stock disponible')
+
 
 class Factura:
     def __init__(self, id_factura, glosa, valor_total):

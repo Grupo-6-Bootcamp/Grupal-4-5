@@ -4,6 +4,7 @@ from views.funciones import *
 ########## CONTROL DE BODEGA ##############
 ###########################################
 
+
 def adm_bodega():
     print("\nControl de bodega\n")
     menu_admbodega = 0
@@ -16,9 +17,10 @@ def adm_bodega():
         5. Mostrar y todos los productos de la tienda
         6. Mostrar y retornar los productos que tienen más de un número de unidades
         7. Salir\n""")
-        menu_admbodega = int(input("Ingrese el número de la opción que desea realizar: "))
+        menu_admbodega = int(
+            input("Ingrese el número de la opción que desea realizar: "))
         if menu_admbodega == 1:
-            limpiarTerminal() 
+            limpiarTerminal()
             nuevo_stock()
         elif menu_admbodega == 2:
             limpiarTerminal()
@@ -44,6 +46,7 @@ def adm_bodega():
 ########## CONTROL DE VENTAS ##############
 ###########################################
 
+
 def adm_ventas():
     print("\nSistema de ventas\n")
     menu_ventas = 0
@@ -52,7 +55,8 @@ def adm_ventas():
         1. Mostrar y retornar el número de clientes registrados en la tienda
         2. Ir a comprar
         3. Salir\n""")
-        menu_ventas = int(input("Ingrese el número de la opción que desea realizar: "))
+        menu_ventas = int(
+            input("Ingrese el número de la opción que desea realizar: "))
         if menu_ventas == 1:
             limpiarTerminal()
             print(clientes)
@@ -68,6 +72,7 @@ def adm_ventas():
 ########## CONTROL DE CLIENTES ############
 ###########################################
 
+
 def adm_clientes():
     print("\nAdministración de clientes\n")
     menu_clientes = 0
@@ -78,7 +83,8 @@ def adm_clientes():
         3. Mostrar saldo de cliente
         4. Modificar saldo de cliente
         5. Salir\n""")
-        menu_clientes = int(input("Ingrese el número de la opción que desea realizar: "))
+        menu_clientes = int(
+            input("Ingrese el número de la opción que desea realizar: "))
         if menu_clientes == 1:
             limpiarTerminal()
             mostrar_clientes()
@@ -100,6 +106,7 @@ def adm_clientes():
 ########## MENU GENERAL ###################
 ###########################################
 
+
 limpiarTerminal()
 print("\nBienvenido al sistema de control y ventas\n")
 opcion = 0
@@ -109,7 +116,8 @@ while opcion != 3:
     2. Administración de clientes (Temporalmente fuera de servicio)
     3. Sistema de ventas
     4. Salir""")
-    opcion = int(input("Ingrese el número de la opción que desea realizar: "))
+    opcion = int(
+        input("Ingrese el número de la opción que desea realizar: "))
     if opcion == 1:
         limpiarTerminal()
         # adm_bodega()
@@ -117,7 +125,8 @@ while opcion != 3:
     elif opcion == 2:
         limpiarTerminal()
         # adm_clientes()
-        print('Administración de clientes se encuentra temporalmente fuera de servicio \n\n')
+        print(
+            'Administración de clientes se encuentra temporalmente fuera de servicio \n\n')
     elif opcion == 3:
         limpiarTerminal()
         adm_ventas()
@@ -125,5 +134,3 @@ while opcion != 3:
         limpiarTerminal()
         print("Gracias por utilizar el sistema de control y ventas \n")
         break
-
-
