@@ -1,4 +1,4 @@
-from models.exceptionClass import sinStockBodega
+from models.exceptionClass import sinStockBodega, cantMaxCarrito, numMinimoCompras
 
 class Persona:
     def __init__(self, run, nombre, apellido, edad):
@@ -31,6 +31,10 @@ class Cliente(Persona):
     def obtenerCliente(self, id):
         return self.nombre if id == self.id else None
 
+    def promedio_compras(self, compras, num_compras)->float:
+        if num_compras <= 0:
+            raise numMinimoCompras(num_compras)
+        return compras/num_compras
 
 class Edificio:
     def __init__(self, direccion, telefono):
@@ -174,8 +178,10 @@ class OrdenCompra:
             cliente.num_compras +=1
             vendedor.ventas += self.producto.valor_neto * cantidad
             self.generaOC(self.id_compra, self.producto, cantidad, self.despacho)
+            prom = cliente.compras / cliente.num_compras
             print(
                 f'El producto {self.producto.nombre} fue vendido exitosamente, el saldo del cliente es {cliente.saldo}')
+            print(f'El promedio de compras del cliente {cliente.nombre} es de ${prom}')
             print(
                 f'El nuevo stock del producto {self.producto.nombre} es de {self.producto.sucursal.stock} unidades.')
         else:

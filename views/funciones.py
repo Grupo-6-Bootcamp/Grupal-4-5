@@ -1,6 +1,6 @@
 import os
 from models.clases import Cliente, Bodega, Sucursal, Producto, Vendedor, OrdenCompra
-from models.exceptionClass import sinStockBodega, cantMaxCarrito
+from models.exceptionClass import sinStockBodega, cantMaxCarrito, numMinimoCompras
 
 # Bodega
 productos = {
@@ -74,6 +74,11 @@ def productos_enstock():
     )
     print(f'Los productos con stock mayor a 1 es bodega son: {stock}')
 
+    """
+    TODO: crear función que calcule el promedio de compras del cliente
+    promedio = compras/num_compras. Ambas variables se calculan en el método vender()
+    """
+
 
 def adm_compra():
     """Permite realizar una compra"""
@@ -97,12 +102,6 @@ def adm_compra():
         except Exception:
             print("La cantidad debe ser un número entero")
 
-    """
-    TODO: crear función que calcule el promedio de compras del cliente
-    promedio = compras/num_compras. Ambas variables se calculan en el método vender()
-    """
-def prom_compras():
-    pass
 
 def ver_saldo_cliente():
     id_cliente = int(input('Ingrese ID del cliente: '))
